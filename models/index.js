@@ -6,15 +6,15 @@ const db = new Sequelize('postgres://localhost:5432/wikistack', {
 const Page = db.define('page', {
   title: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   slug: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   content: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: false,
   },
   status: {
     type: Sequelize.ENUM('open', 'closed'),
@@ -24,15 +24,25 @@ const Page = db.define('page', {
 const User = db.define('user', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      isEmail: true
-    }
+      isEmail: true,
+    },
   },
+});
+
+function generateSlug(title) {
+  // Removes all non-alphanumeric characters from title
+  // And make whitespace underscore
+  return title.replace(/\s+/g, '_').replace(/\W/g, '');
+}
+
+Page.beforeValidate((pageInstance, optionsObject) => {
+  pageInstance.slug = generateSlug(pageInstance.title);
 });
 
 module.exports = {
