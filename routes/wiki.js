@@ -10,6 +10,9 @@ router.get('/', async (req, res, next) => {
   next();
 });
 
+
+
+
 router.post('/', async (req, res, next) => {
   console.log('ADD A NEW POST');
 
@@ -25,7 +28,8 @@ router.post('/', async (req, res, next) => {
   // make sure we only redirect *after* our save is complete!
   // note: `.save` returns a promise.
   try {
-    await page.save();
+    let newPage = await page.save();
+    console.log('PAGE INSTANCE', newPage)
     res.redirect('/');
   } catch (error) {
     next(error);
@@ -40,6 +44,16 @@ router.get('/add', async (req, res, next) => {
   console.log('SERVE ADD FORM');
 
   res.send(addPage());
+});
+
+router.get('/:slug', async (req, res, next) => {
+  console.log('CERTAIN PAGE', req.params.slug);
+
+  const page = await Page.findOne({
+    where: {slug: req.params.slug}
+  })
+  console.log('FOUND PAGE', page)
+  next();
 });
 
 module.exports = router;
