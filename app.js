@@ -1,6 +1,11 @@
-const { db } = require('./models');
+const { db, Page, User } = require("./models");
 
-db.authenticate().
-then(() => {
-  console.log('connected to the database');
-})
+async function sync() {
+    db.authenticate().then(() => {
+        console.log("connected to the database");
+    });
+    await Page.sync();
+    await User.sync();
+}
+
+sync();
