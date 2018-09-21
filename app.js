@@ -1,6 +1,7 @@
 const express = require('express');
 const { db, Page, User } = require('./models');
-const wikirouter = require('./routes/wiki')
+const wikiRouter = require('./routes/wiki')
+const userRouter = require('./routes/user')
 const app = express();
 const PORT = 3000;
 
@@ -21,7 +22,8 @@ async function sync() {
 }
 
 sync();
-app.use('/wiki', wikirouter)
+app.use('/wiki', wikiRouter)
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is lstening on port ${PORT}!`);
