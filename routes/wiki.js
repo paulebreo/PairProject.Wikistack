@@ -33,7 +33,7 @@ router.post('/', async (req, res, next) => {
   try {
     let newPage = await page.save();
     console.log('PAGE INSTANCE', newPage)
-    res.redirect('/');
+    res.redirect(`/wiki/${newPage.slug}`);
   } catch (error) {
     next(error);
   }
@@ -57,7 +57,7 @@ router.get('/:slug', async (req, res, next) => {
     where: {slug: req.params.slug}
     })
      ;
-     res.send(views.wikiPage(page, "sampleAuthor"))
+     res.send(views.wikiPage(page, page.rows))
     // console.log('FOUND PAGE', page)
     next();
   }
