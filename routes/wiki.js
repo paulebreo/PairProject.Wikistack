@@ -9,7 +9,22 @@ const addPage = require('../views/addPage');
 router.use(express.urlencoded({ extended: false }));
 
 router.get('/', async (req, res, next) => {
-  console.log('ALL POSTS', await Page.findAll());
+  // console.log('ALL POSTS', await Page.findAll());
+ 
+    try{
+      console.log('ALL PAGES');
+  
+      const pages = await Page.findAll()
+      console.log('PAGES',pages)
+      res.send(views.main(pages))
+    
+      // console.log('FOUND PAGE', page)
+      next();
+    }
+    catch (error){
+      next(error);
+    }
+
   next();
 });
 
