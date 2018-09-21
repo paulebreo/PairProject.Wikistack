@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {db, Page, User} = require('../models');
+const addPage = require('../views/addPage');
 
 router.get('/', async (req, res, next) => {
     console.log("ALL POSTS", await Page.findAll())
@@ -19,9 +20,9 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/add', async (req, res, next) => {
-    console.log('SERVE ADD FORM');
+    // console.log('SERVE ADD FORM');
 
-    // res.send(wikiAdd());
+    res.send(addPage());
     next()
     
 })
