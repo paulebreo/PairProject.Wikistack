@@ -9,8 +9,9 @@ async function sync() {
     db.authenticate().then(() => {
       console.log('connected to the database');
     });
-    await Page.sync();
-    await User.sync();
+    await db.sync();
+    // await Page.sync();
+    // await User.sync();
 
     app.listen(PORT, () => {
       console.log(`Server is lstening on port ${PORT}!`);
