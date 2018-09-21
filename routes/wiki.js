@@ -20,6 +20,7 @@ router.post('/', async (req, res, next) => {
     title: req.body.title,
     content: req.body.content,
     slug: 'abc',
+    status: req.body.status,
   });
 
   // make sure we only redirect *after* our save is complete!
