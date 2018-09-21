@@ -4,6 +4,7 @@ const wikiRouter = require('./routes/wiki');
 const userRouter = require('./routes/user');
 const app = express();
 const PORT = 3000;
+const morgan =require('morgan');
 
 async function sync() {
   try {
@@ -20,6 +21,7 @@ async function sync() {
 
 sync();
 
+app.use(morgan('dev'));
 app.use('/wiki', wikiRouter);
 app.use('/user', userRouter);
 // app.use('/', (req, res, next) => {

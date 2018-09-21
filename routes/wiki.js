@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { db, Page, User } = require('../models');
+const views = require('../views')
 const addPage = require('../views/addPage');
+
+
 
 router.use(express.urlencoded({ extended: false }));
 
@@ -14,9 +17,9 @@ router.get('/', async (req, res, next) => {
 
 
 router.post('/', async (req, res, next) => {
-  console.log('ADD A NEW POST');
+  // console.log('ADD A NEW POST');
 
-  console.log('FORM DATA', req.body);
+  // console.log('FORM DATA', req.body);
 
   // User.create()
   const page = new Page({
@@ -47,13 +50,21 @@ router.get('/add', async (req, res, next) => {
 });
 
 router.get('/:slug', async (req, res, next) => {
-  console.log('CERTAIN PAGE', req.params.slug);
+  try{
+    console.log('CERTAIN PAGE', req.params.slug);
 
-  const page = await Page.findOne({
+    const page = await Page.findOne({
     where: {slug: req.params.slug}
-  })
-  console.log('FOUND PAGE', page)
-  next();
+    })
+     ;
+     res.send(views.wikiPage(page, "sampleAuthor"))
+    // console.log('FOUND PAGE', page)
+    next();
+  }
+  catch (error){
+    next(error);
+  }
+
 });
 
 module.exports = router;
