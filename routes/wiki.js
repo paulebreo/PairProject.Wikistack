@@ -5,6 +5,7 @@ const addPage = require('../views/addPage');
 
 router.get('/', async (req, res, next) => {
   console.log('ALL POSTS', await Page.findAll());
+  next();
 });
 
 router.post('/', async (req, res, next) => {
@@ -19,7 +20,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/add', async (req, res, next) => {
-  // console.log('SERVE ADD FORM');
+  console.log('SERVE ADD FORM');
 
   res.send(addPage());
 });

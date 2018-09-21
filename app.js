@@ -19,8 +19,12 @@ async function sync() {
 }
 
 sync();
+
 app.use('/wiki', wikiRouter);
 app.use('/user', userRouter);
+app.use('/', (req, res, next) => {
+  res.redirect('/wiki')
+})
 
 app.listen(PORT, () => {
   console.log(`Server is lstening on port ${PORT}!`);
