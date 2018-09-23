@@ -11,7 +11,7 @@ async function sync() {
     db.authenticate().then(() => {
       console.log('connected to the database');
     });
-    await db.sync();
+    await db.sync(); 
     // await Page.sync();
     // await User.sync();
   } catch (error) {

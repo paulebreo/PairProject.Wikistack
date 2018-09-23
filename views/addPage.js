@@ -7,7 +7,7 @@ module.exports = () =>
   <hr>
   <form method="POST" action="/wiki/">
 
-    <div><input type="text" name="author"/>Author</div>
+    <div><input type="text" name="name"/>Author</div>
 
     <div><input type="text" name="email"/>email</div>
 

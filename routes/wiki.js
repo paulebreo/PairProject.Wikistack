@@ -36,12 +36,19 @@ router.post('/', async (req, res, next) => {
 
   // console.log('FORM DATA', req.body);
 
-  // User.create()
+  const [user, wasCreated] = await User.findOrCreate({
+    where: {
+      name: req.body.name,
+      email: req.body.email
+    }
+  })
   const page = new Page({
     title: req.body.title,
     content: req.body.content,
     status: req.body.status,
-  });
+  })
+  
+  page.setAuthor(user)
 
   // make sure we only redirect *after* our save is complete!
   // note: `.save` returns a promise.
