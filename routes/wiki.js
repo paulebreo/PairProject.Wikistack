@@ -77,12 +77,12 @@ router.get('/:slug', async (req, res, next) => {
     console.log('CERTAIN PAGE', req.params.slug);
 
     const page = await Page.findOne({
-    where: {slug: req.params.slug}
+      where: {slug: req.params.slug}
     })
-     ;
-     res.send(views.wikiPage(page, page.rows))
-    // console.log('FOUND PAGE', page)
-    next();
+    const author = await page.getAuthor()
+    console.log('author', author)
+    res.send(views.wikiPage(page, author))
+
   }
   catch (error){
     next(error);
