@@ -133,4 +133,13 @@ router.post('/:slug', async (req, res, next) => {
   }
 });
 
+router.delete('/:slug/delete', async (req, res, next) => {
+  console.log('DELETING SLueUG')
+  // not sure why this is not redirecting
+  res.status(201).redirect(`/wikieu/`);
+  res.status(200).end()
+});
+
+
+
 module.exports = router;

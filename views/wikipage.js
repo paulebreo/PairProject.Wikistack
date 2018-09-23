@@ -10,5 +10,16 @@ module.exports = (page, author) => layout(html`
   <div class="page-body">$${page.content}</div>
   <hr/>
   <a href="/wiki/${page.slug}/edit" class="btn btn-primary">edit this page</a>
-  <a href="/wiki/${page.slug}/delete" class="btn btn-danger">delete this page</a>
+  <a id="delete" href="/wiki/${page.slug}/delete" class="btn btn-danger">delete this page</a>
+  <script>
+   let delButton = document.getElementById('delete')
+   delButton.addEventListener('click', (evt)=>{
+     evt.preventDefault();
+     let request = new XMLHttpRequest();
+     console.log('click')
+     console.log(request)
+     request.open("DELETE", "/wiki/${page.slug}/delete", true);
+     request.send();
+   })
+  </script>
 `);
