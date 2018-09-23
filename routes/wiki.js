@@ -5,19 +5,16 @@ const views = require('../views')
 const addPage = require('../views/addPage');
 
 
-
 router.use(express.urlencoded({ extended: false }));
 
 router.get('/', async (req, res, next) => {
   // console.log('ALL POSTS', await Page.findAll());
- 
-    try{
+
+    try {
       console.log('ALL PAGES');
-  
       const pages = await Page.findAll()
-      console.log('PAGES',pages)
-      res.send(views.main(pages))
-    
+      console.log('PAGES', pages)
+      res.send(views.main(pages)) 
       // console.log('FOUND PAGE', page)
       next();
     }
@@ -29,29 +26,33 @@ router.get('/', async (req, res, next) => {
 });
 
 
-
-
 router.post('/', async (req, res, next) => {
-  // console.log('ADD A NEW POST');
+  let user 
+  let wasCreated 
+  let page
+  try {
+    [user, wasCreated] = await User.findOrCreate({
+      where: {
+        name: req.body.name,
+        email: req.body.email
+      }
+    })
+  } catch (err) {
+    console.log('ERROR', err)
+  }
 
-  // console.log('FORM DATA', req.body);
-
-  const [user, wasCreated] = await User.findOrCreate({
-    where: {
-      name: req.body.name,
-      email: req.body.email
-    }
-  })
-  const page = new Page({
-    title: req.body.title,
-    content: req.body.content,
-    status: req.body.status,
-  })
-  
-  page.setAuthor(user)
+  try {
+    page = new Page({
+      title: req.body.title,
+      content: req.body.content,
+      status: req.body.status,
+    })
+    page.setAuthor(user)
+  } catch (err) {
+    console.log('ERROR', err)
+  }
 
   // make sure we only redirect *after* our save is complete!
-  // note: `.save` returns a promise.
   try {
     let newPage = await page.save();
     console.log('PAGE INSTANCE', newPage)
@@ -72,7 +73,7 @@ router.get('/add', async (req, res, next) => {
 });
 
 router.get('/:slug', async (req, res, next) => {
-  try{
+  try {
     console.log('CERTAIN PAGE', req.params.slug);
 
     const page = await Page.findOne({
