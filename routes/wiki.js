@@ -114,4 +114,23 @@ router.get('/:slug/edit', async (req, res, next) => {
 
 });
 
+router.post('/:slug', async (req, res, next) => {
+  console.log('POSTING SLUG')
+  try {
+    const [numberOfAffectedRows, affectedRows] = await Page.update({ 
+      title: req.body.title,
+      content: req.body.content,
+      status: req.body.status,
+    }, {
+      where: {slug: req.params.slug},
+      returning: true, // needed for affectedRows to be populated
+      plain: true // makes sure that the returned instances are just plain objects
+    })
+    res.status(201).redirect(`/wiki/${req.params.slug}`);
+  } catch (error) {
+    console.log('ERROR', error)
+    next(error)
+  }
+});
+
 module.exports = router;
