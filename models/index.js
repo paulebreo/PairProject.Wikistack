@@ -43,13 +43,10 @@ function generateSlug(title) {
 }
 
 Page.beforeValidate((pageInstance, optionsObject) => {
-  pageInstance.slug = generateSlug(pageInstance.title);
+  pageInstance.content = marked(pageInstance.content)
+  pageInstance.slug = generateSlug(pageInstance.title)
 });
 
-// Page.beforeUpdate((pageInstance) => {
-//   console.log('MARKED CONTENT',marked(pageInstance.content))
-//   // pageInstance.content = marked()
-// })
 
 Page.belongsTo(User, { as: 'author' });
 
