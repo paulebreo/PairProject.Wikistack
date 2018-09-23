@@ -45,6 +45,8 @@ Page.beforeValidate((pageInstance, optionsObject) => {
   pageInstance.slug = generateSlug(pageInstance.title);
 });
 
+Page.belongsTo(User, { as: 'author' });
+
 module.exports = {
   db,
   Page,
