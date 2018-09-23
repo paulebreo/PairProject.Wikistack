@@ -13,7 +13,6 @@ router.get('/', async (req, res, next) => {
     try {
       console.log('ALL PAGES');
       const pages = await Page.findAll()
-      console.log('PAGES', pages)
       res.send(views.main(pages)) 
       // console.log('FOUND PAGE', page)
       next();
@@ -55,7 +54,6 @@ router.post('/', async (req, res, next) => {
   // make sure we only redirect *after* our save is complete!
   try {
     let newPage = await page.save();
-    console.log('PAGE INSTANCE', newPage)
     res.redirect(`/wiki/${newPage.slug}`);
   } catch (error) {
     next(error);
@@ -80,7 +78,6 @@ router.get('/:slug', async (req, res, next) => {
       where: {slug: req.params.slug}
     })
     const author = await page.getAuthor()
-    console.log('author', author)
     res.send(views.wikiPage(page, author))
 
   }
