@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db, Page, User } = require('../models');
 const userList = require('../views/userList');
+const userPages = require('../views/userPages');
 
 router.get('/', async (req, res, next) => {
   console.log('ALL USER');
@@ -17,7 +18,18 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   console.log('in id', req.params.id);
-  // console.log("ALL USER", await User.f())
+  try {
+    const user = await User.findById(req.params.id)
+    const pages = await Page.findAll({
+        where: {
+          authorId: req.params.id
+        }
+    })
+    res.send(userPages(user, pages)) 
+  } catch (error) {
+    console.log('ERROR', error)
+    next(error)
+  }
 });
 
 router.post('/', async (req, res, next) => {
