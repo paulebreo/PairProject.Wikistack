@@ -92,4 +92,26 @@ router.get('/:slug', async (req, res, next) => {
 
 });
 
+router.get('/:slug/edit', async (req, res, next) => {
+  let page
+  try {
+    console.log('EDIT PAGE', req.params.slug);    
+    page = await Page.findOne({
+      where: {slug: req.params.slug}
+    })
+    if(!page) {
+      res.status(404).end('page not found')
+    }
+  } catch (error) {
+    console.log('ERROR', error)
+  }
+  try {
+    const author = await page.getAuthor()
+    res.send(views.editPage(page, author))
+  } catch (error) {
+    next(error);
+  }
+
+});
+
 module.exports = router;
