@@ -1,10 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const { db, Page, User } = require('../models');
+const userList = require('../views/userList');
 
 router.get('/', async (req, res, next) => {
-  console.log('ALL USER', await User.findAll());
-  res.redirect('/');
+  console.log('ALL USER');
+  try {
+    const users = await User.findAll()
+    res.send(userList(users))    
+  } catch (err) {
+    console.log('ERROR', err)
+    next(err)
+  }
+
 });
 
 router.get('/:id', async (req, res, next) => {
