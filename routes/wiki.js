@@ -133,6 +133,7 @@ router.post('/:slug', async (req, res, next) => {
   }
 });
 
+// On the front end, you might have to create a form DELETE request
 router.delete('/:slug/delete', async (req, res, next) => {
   console.log('DELETING SLueUG')
   // not sure why this is not redirecting
